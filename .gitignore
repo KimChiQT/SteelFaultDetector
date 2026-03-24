@@ -1,0 +1,14 @@
+# Bỏ qua rác của giao diện React
+frontend-thep/node_modules/
+frontend-thep/dist/
+
+# Bỏ qua rác của Python và quá trình Train AI
+__pycache__/
+runs/
+dataset/
+yolo_dataset/
+
+# Bỏ qua các file nén và video nặng
+*.zip
+*.rar
+*.mp4
