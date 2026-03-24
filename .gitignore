@@ -12,3 +12,4 @@ yolo_dataset/
 *.zip
 *.rar
 *.mp4
+.vercel

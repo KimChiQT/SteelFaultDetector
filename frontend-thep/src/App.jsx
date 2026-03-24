@@ -5,6 +5,8 @@ import jsPDF from 'jspdf';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000').replace(/\/+$/, '');
+
 const CRITERIA_WEIGHTS = {
   cost: 0.608,
   time: 0.120,
@@ -103,7 +105,7 @@ export default function App() {
     formData.append("file", selectedFile);
 
     try {
-      const response = await fetch("http://localhost:8000/analyze", {
+      const response = await fetch(`${API_BASE_URL}/analyze`, {
         method: "POST",
         body: formData,
       });
@@ -167,7 +169,7 @@ export default function App() {
     // If not found locally, try loading from backend history endpoint
     (async () => {
       try {
-        const res = await fetch(`http://localhost:8000/history/${id}`);
+        const res = await fetch(`${API_BASE_URL}/history/${id}`);
         if (!res.ok) throw new Error('Not found');
         const h = await res.json();
         const rd = {
@@ -209,14 +211,14 @@ export default function App() {
   // Load histories from backend and append to local scanHistory
   const loadRemoteHistories = async () => {
     try {
-      const res = await fetch('http://localhost:8000/history');
+      const res = await fetch(`${API_BASE_URL}/history`);
       if (!res.ok) throw new Error('Failed to fetch');
       const j = await res.json();
       const items = j.items || [];
       // For each item, fetch its details (image + faults)
       const details = await Promise.all(items.map(async (it) => {
         try {
-          const r2 = await fetch(`http://localhost:8000/history/${it.id}`);
+          const r2 = await fetch(`${API_BASE_URL}/history/${it.id}`);
           if (!r2.ok) return null;
           const d = await r2.json();
           return {
